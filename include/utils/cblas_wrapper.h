@@ -18,7 +18,13 @@
 #ifndef CBLAS_WRAPPER_H
 #define CBLAS_WRAPPER_H
 
-#ifdef __APPLE__
+#if defined(SPARSEDIFF_USE_RBLAS)
+/* Portable build (e.g. the R 'sparsediff' package): route CBLAS calls through a
+ * shim over the host's Fortran BLAS, so the engine uses the same BLAS as the
+ * host application and stays portable to platforms whose BLAS provides no CBLAS
+ * interface. Define -DSPARSEDIFF_USE_RBLAS and supply sparsediff_cblas.h. */
+#include "sparsediff_cblas.h"
+#elif defined(__APPLE__)
 #define ACCELERATE_NEW_LAPACK
 /* Apple's Accelerate/LAPACK/Sparse headers trip a large, SDK-dependent set
  * of -Wpedantic/GNU-extension warnings (nullability qualifiers, zero-arg
