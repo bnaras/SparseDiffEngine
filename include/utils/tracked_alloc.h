@@ -34,6 +34,15 @@
 #define TRACKED_BLOCK_SIZE(p) malloc_usable_size(p)
 #endif
 
+/* R-package build: route console I/O (printf/stderr/exit) to R.  Guarded by
+ * SPARSEDIFF_R_PRINT; off => byte-identical to upstream.  Hooked here because
+ * tracked_alloc.h is included by every source that does any console output.
+ * Placed after every system header above so r_io.h's function-like macros
+ * (exit, printf, fprintf) cannot rewrite a later system declaration. */
+#ifdef SPARSEDIFF_R_PRINT
+#include "utils/r_io.h"
+#endif
+
 extern size_t g_allocated_bytes; /* current live bytes */
 extern size_t g_peak_bytes;      /* high-water mark since last reset */
 
