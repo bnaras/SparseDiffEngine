@@ -36,6 +36,12 @@
 #ifndef IVEC_H
 #define IVEC_H
 
+/* R-package build: route this header's printf (print_ivec) and the
+ * Vec_macros.h I/O it uses to R.  Guarded by SPARSEDIFF_R_PRINT (off => upstream). */
+#ifdef SPARSEDIFF_R_PRINT
+#include "utils/r_io.h"
+#endif
+
 #include <stdio.h>
 
 #include "Vec_macros.h"

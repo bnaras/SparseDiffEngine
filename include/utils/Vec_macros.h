@@ -36,6 +36,15 @@
 #ifndef VEC_MACROS_H
 #define VEC_MACROS_H
 
+/* R-package build: route the realloc-failure fprintf(stderr)/exit in the macros
+ * below to R.  Hooked at the TOP because these macros expand at their USE sites
+ * (often inside other headers' inline functions); any such site must include
+ * this header first, so activating r_io.h here guarantees the redirect is in
+ * effect before any expansion.  Guarded by SPARSEDIFF_R_PRINT (off => upstream). */
+#ifdef SPARSEDIFF_R_PRINT
+#include "utils/r_io.h"
+#endif
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>

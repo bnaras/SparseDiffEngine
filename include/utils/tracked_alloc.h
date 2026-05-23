@@ -21,6 +21,13 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+/* R-package build: route console I/O (printf/stderr/exit) to R.  Guarded by
+ * SPARSEDIFF_R_PRINT; off => byte-identical to upstream.  Hooked here because
+ * tracked_alloc.h is included by every source that does any console output. */
+#ifdef SPARSEDIFF_R_PRINT
+#include "utils/r_io.h"
+#endif
+
 extern size_t g_allocated_bytes;
 
 static inline void *SP_MALLOC(size_t size)
